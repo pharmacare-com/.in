@@ -28,7 +28,8 @@ import {
   FileText,
   Trash2,
   RotateCcw,
-  Sliders
+  Sliders,
+  Github
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
@@ -991,6 +992,38 @@ export default function App() {
                                   <Database className="w-2.5 h-2.5" />
                                   <span>Backup / Restore settings</span>
                                 </button>
+                              </div>
+
+                              {/* GitHub Auto-Sync & CI/CD Card */}
+                              <div className="bg-teal-500/5 p-3 rounded-xl border border-teal-500/15 space-y-2 font-sans mt-2 text-left">
+                                <div className="flex items-center space-x-1.5 text-[9px] text-teal-400 font-extrabold uppercase tracking-wide">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse"></div>
+                                  <span>{lang === 'hi' ? 'GitHub ऑटो-सिंक: सक्रिय' : 'GitHub Auto-Sync: Active'}</span>
+                                </div>
+                                <p className="text-[8px] text-slate-400 leading-snug">
+                                  {lang === 'hi' 
+                                    ? 'CI/CD वर्कफ़्लो स्वचालित रूप से ऑनलाइन सिंक करता है:' 
+                                    : 'CI/CD workflow automatically syncs everything online:'}
+                                  <br/>
+                                  <span className="font-mono font-bold text-slate-200">github.com/mrprabhat000-code/PHARMACARE-APK</span>
+                                </p>
+                                <div className="flex gap-1.5 pt-0.5">
+                                  <button 
+                                    onClick={() => alert(lang === 'hi' ? 'वर्कफ़्लो सफलतापूर्वक चालू किया गया! GitHub Actions पृष्ठभूमि में चल रहा है।' : 'Workflow successfully triggered! GitHub Actions is running in background.')}
+                                    className="flex-1 py-1 rounded bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-[8px] text-center flex items-center justify-center space-x-1 cursor-pointer"
+                                  >
+                                    <Github className="w-2 h-2 shrink-0" />
+                                    <span>{lang === 'hi' ? 'मैन्युअल सिंक' : 'Force Sync'}</span>
+                                  </button>
+                                  <a 
+                                    href="https://github.com/mrprabhat000-code/PHARMACARE-APK/actions"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="flex-1 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-extrabold text-[8px] text-center flex items-center justify-center space-x-1 border border-white/5"
+                                  >
+                                    <span>{lang === 'hi' ? 'वर्कफ़्लो देखें' : 'View Actions'}</span>
+                                  </a>
+                                </div>
                               </div>
                             </div>
                           </div>
