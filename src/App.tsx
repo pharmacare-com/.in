@@ -29,7 +29,10 @@ import {
   Trash2,
   RotateCcw,
   Sliders,
-  Github
+  Github,
+  Eye,
+  EyeOff,
+  Lock
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
@@ -39,6 +42,14 @@ import {
   billingMedicinesList, 
   LanguageDict 
 } from "./data";
+
+const randomPharmacists = [
+  { name: "dellep kumar", shop: "pharmacare", phone: "9005372548", dl: "737373ye", addr: "anjhi station Shahabad" },
+  { name: "Dr. Alok Maurya", shop: "Maurya Medicos", phone: "9450123456", dl: "20B-UP98765", addr: "Civil Lines, Lucknow" },
+  { name: "Amit Gupta", shop: "Gupta Pharma", phone: "9876543210", dl: "21B-DL55432", addr: "Noida Sector 62, Delhi" },
+  { name: "Suresh Chandra", shop: "Chandra Medical Hall", phone: "9005372511", dl: "DL-HC84920", addr: "Anjhi Station, Hardoi" },
+  { name: "Dr. Prabhat Singh", shop: "PharmaCare Clinic", phone: "9696971627", dl: "RLF20UP2025", addr: "Shahabad, Hardoi" }
+];
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'hi'>('hi'); // Defaulting to Hindi as requested
@@ -87,6 +98,28 @@ export default function App() {
 
   // WhatsApp Query State
   const [whatsappMsg, setWhatsappMsg] = useState("");
+
+  // Privacy Masking toggle state (masks sensitive invoice fields with ****)
+  const [maskDetails, setMaskDetails] = useState(true);
+
+  // Dynamic Pharmacist / Buyer state for Billing Simulator
+  const [buyerDetails, setBuyerDetails] = useState({
+    name: "dellep kumar",
+    shop: "pharmacare",
+    phone: "9005372548",
+    dl: "737373ye",
+    addr: "anjhi station Shahabad"
+  });
+
+  // Randomize Buyer details
+  const handleRandomizeBuyer = () => {
+    // Pick a random pharmacist distinct from current one if possible
+    const currentName = buyerDetails.name;
+    const candidates = randomPharmacists.filter(p => p.name !== currentName);
+    const pool = candidates.length > 0 ? candidates : randomPharmacists;
+    const randomItem = pool[Math.floor(Math.random() * pool.length)];
+    setBuyerDetails(randomItem);
+  };
 
   // Auto-generate QR code when amount or UPI changes
   useEffect(() => {
@@ -172,6 +205,12 @@ export default function App() {
       setLastSynced(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
       setSyncCount(prev => prev + 1);
     }, 2000);
+  };
+
+  // Direct APK download handler without opening a blank new tab
+  const handleDownloadApk = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    window.location.href = "https://github.com/mrprabhat000-code/PHARMACARE-APK/releases/download/Apk/Pharma.Care.apk";
   };
 
   // Handle preset donation amount clicks
@@ -261,7 +300,8 @@ export default function App() {
             {/* Download CTA Button */}
             <a 
               id="nav-download-cta"
-              href="#install" 
+              href="https://github.com/mrprabhat000-code/PHARMACARE-APK/releases/download/Apk/Pharma.Care.apk" 
+              onClick={handleDownloadApk}
               className="hidden sm:flex items-center space-x-2 px-4 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm shadow-sm transition-all hover:shadow-md cursor-pointer"
             >
               <Download className="w-4 h-4" />
@@ -317,7 +357,8 @@ export default function App() {
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
                 <a 
                   id="hero-download-apk"
-                  href="#install" 
+                  href="https://github.com/mrprabhat000-code/PHARMACARE-APK/releases/download/Apk/Pharma.Care.apk" 
+                  onClick={handleDownloadApk}
                   className="w-full sm:w-auto flex items-center justify-center space-x-2 px-5 py-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 font-bold text-sm sm:text-lg shadow-lg shadow-teal-600/20 hover:shadow-xl hover:shadow-teal-600/30 hover:-translate-y-0.5 transition-all cursor-pointer"
                 >
                   <Download className="w-4.5 h-4.5 animate-bounce" />
@@ -642,6 +683,38 @@ export default function App() {
                     {/* 1. COMBINED A4 INVOICE */}
                     {selectedScreen === "a4-invoice" && (
                       <div className="w-full bg-white text-slate-900 rounded-xl sm:rounded-2xl p-4 sm:p-8 shadow-2xl font-sans relative border border-slate-200 overflow-hidden leading-snug">
+                        {/* Interactive Privacy Toggle - Hidden in Print */}
+                        <div className="print:hidden mb-4 flex items-center justify-between bg-teal-50/80 border border-teal-100/80 px-3.5 py-2 rounded-xl text-xs">
+                          <div className="flex items-center space-x-2 text-teal-900 font-medium">
+                            {maskDetails ? <Lock className="w-3.5 h-3.5 text-teal-600 shrink-0" /> : <Eye className="w-3.5 h-3.5 text-slate-500 shrink-0" />}
+                            <span>
+                              {lang === 'hi' 
+                                ? (maskDetails ? 'सुरक्षित गोपनीयता मोड सक्रिय (विवरण छुपाए गए हैं)' : 'गोपनीयता मोड बंद (विवरण दिख रहे हैं)')
+                                : (maskDetails ? 'Privacy Masking is ON (Sensitive details hidden)' : 'Privacy Masking is OFF (Original details visible)')}
+                            </span>
+                          </div>
+                          <button
+                            onClick={() => setMaskDetails(!maskDetails)}
+                            className={`flex items-center space-x-1.5 px-3 py-1 rounded-lg font-bold shadow-sm transition-all cursor-pointer text-[10px] sm:text-xs ${
+                              maskDetails 
+                                ? 'bg-white hover:bg-teal-50 text-teal-700 border border-teal-200' 
+                                : 'bg-teal-600 hover:bg-teal-700 text-white border border-transparent'
+                            }`}
+                          >
+                            {maskDetails ? (
+                              <>
+                                <Eye className="w-3.5 h-3.5" />
+                                <span>{lang === 'hi' ? 'असली डिटेल्स दिखाएं' : 'Show Details'}</span>
+                              </>
+                            ) : (
+                              <>
+                                <EyeOff className="w-3.5 h-3.5" />
+                                <span>{lang === 'hi' ? 'डिटेल्स छुपाएं (Stars)' : 'Mask with Stars'}</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+
                         {/* Diagonal Repeating Watermark Background */}
                         <div className="absolute inset-0 pointer-events-none select-none flex flex-col justify-around items-center overflow-hidden opacity-[0.04]">
                           <div className="rotate-[-25deg] text-teal-900 text-[35px] sm:text-[50px] font-black uppercase tracking-widest whitespace-nowrap font-sans">
@@ -676,23 +749,23 @@ export default function App() {
                         {/* Metadata Details (2 Columns) */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left text-[10px] sm:text-xs border-b border-slate-200 pb-4 pt-1 font-sans">
                           <div className="space-y-1 text-slate-700">
-                            <p><span className="text-slate-500 font-semibold">Invoice Number:</span> <strong className="text-slate-900">DIS56611</strong></p>
-                            <p><span className="text-slate-500 font-semibold">Store Operator:</span> <strong className="text-slate-900">Prabhat Singh (+91 9696971627)</strong></p>
-                            <p className="leading-tight"><span className="text-slate-500 font-semibold">Drug Licence No:</span> <strong className="text-slate-900 font-mono text-[9px] sm:text-[10px]">RLF20UP2025003840/RLF21UP2025003812</strong></p>
+                            <p><span className="text-slate-500 font-semibold">Invoice Number:</span> <strong className="text-slate-900">{maskDetails ? "DIS*****" : "DIS56611"}</strong></p>
+                            <p><span className="text-slate-500 font-semibold">Store Operator:</span> <strong className="text-slate-900">{maskDetails ? "Prabhat Singh (+91 **********)" : "Prabhat Singh (+91 9696971627)"}</strong></p>
+                            <p className="leading-tight"><span className="text-slate-500 font-semibold">Drug Licence No:</span> <strong className="text-slate-900 font-mono text-[9px] sm:text-[10px]">{maskDetails ? "RLF20UP*************** / RLF21UP***************" : "RLF20UP2025003840/RLF21UP2025003812"}</strong></p>
                             <p className="flex items-center space-x-1">
                               <span className="text-slate-500 font-semibold">Billing Status:</span> 
-                              <span className="px-1.5 py-0.5 bg-teal-50 border border-teal-200 text-teal-700 font-bold rounded text-[8px] sm:text-[9.5px]">PAID / SAVED</span>
+                              <span className="px-1.5 py-0.5 bg-teal-50 border border-teal-200 text-teal-700 font-bold rounded text-[8px] sm:text-[9.5px]">{maskDetails ? "PAID / *****" : "PAID / SAVED"}</span>
                             </p>
-                            <p><span className="text-slate-500 font-semibold">Shop Address:</span> <strong className="text-slate-900">Anjhi station,Shahabad,Hardoi</strong></p>
+                            <p><span className="text-slate-500 font-semibold">Shop Address:</span> <strong className="text-slate-900">{maskDetails ? "Anjhi station, Shahabad, *******" : "Anjhi station,Shahabad,Hardoi"}</strong></p>
                           </div>
                           
                           <div className="space-y-1 text-slate-700 sm:border-l sm:pl-4 border-slate-200">
                             <h5 className="font-extrabold text-slate-900 uppercase tracking-wider text-[9px] sm:text-[11px] mb-1.5">PHARMACIST / DR. DETAILS</h5>
-                            <p><span className="text-slate-500 font-semibold">Pharm/Dr. Name:</span> <strong className="text-slate-900">dellep kumar</strong></p>
-                            <p><span className="text-slate-500 font-semibold">Contact No:</span> <strong className="text-slate-900">9005372548</strong></p>
-                            <p><span className="text-slate-500 font-semibold">Shop Name:</span> <strong className="text-slate-900">pharmacare</strong></p>
-                            <p><span className="text-slate-500 font-semibold">Shop Address:</span> <strong className="text-slate-900">anjhi station Shahabad</strong></p>
-                            <p><span className="text-slate-500 font-semibold">Drug License:</span> <strong className="text-slate-900 font-mono">737373ye</strong></p>
+                            <p><span className="text-slate-500 font-semibold">Pharm/Dr. Name:</span> <strong className="text-slate-900">{maskDetails ? "d***** k****" : buyerDetails.name}</strong></p>
+                            <p><span className="text-slate-500 font-semibold">Contact No:</span> <strong className="text-slate-900">{maskDetails ? "**********" : buyerDetails.phone}</strong></p>
+                            <p><span className="text-slate-500 font-semibold">Shop Name:</span> <strong className="text-slate-900">{maskDetails ? "p**********" : buyerDetails.shop}</strong></p>
+                            <p><span className="text-slate-500 font-semibold">Shop Address:</span> <strong className="text-slate-900">{maskDetails ? "a**** s****** S********" : buyerDetails.addr}</strong></p>
+                            <p><span className="text-slate-500 font-semibold">Drug License:</span> <strong className="text-slate-900 font-mono">{maskDetails ? "********" : buyerDetails.dl}</strong></p>
                           </div>
                         </div>
 
@@ -817,14 +890,14 @@ export default function App() {
                               <div className="bg-slate-950/60 p-2 rounded-xl border border-white/5 space-y-1.5">
                                 <div className="flex items-center justify-between">
                                   <span className="text-[9px] text-slate-400">Buyer</span>
-                                  <span className="text-[8px] bg-teal-500/10 text-teal-300 px-1 py-0.2 rounded font-mono font-bold">dellep kumar</span>
+                                  <span className="text-[8px] bg-teal-500/10 text-teal-300 px-1 py-0.2 rounded font-mono font-bold">{buyerDetails.name}</span>
                                 </div>
                                 <div className="flex items-center space-x-1 bg-slate-900/60 rounded px-1.5 py-1 text-[9px] text-slate-400">
                                   <Search className="w-2.5 h-2.5 shrink-0" />
                                   <span>Search Buyer / Dr...</span>
                                 </div>
                                 <div className="text-[8px] text-slate-400 font-semibold">
-                                  DL: 737373ye | pharmacare
+                                  DL: {buyerDetails.dl} | {buyerDetails.shop}
                                 </div>
                               </div>
 
@@ -1160,21 +1233,28 @@ export default function App() {
 
                               {/* Registree Cards list */}
                               <div className="space-y-1.5 font-sans">
-                                {[
-                                  { name: "dellep kumar", shop: "pharmacare", phone: "9005372548", dl: "737373ye", addr: "anjhi station Shahabad" }
-                                ].map((item, idx) => (
+                                {[buyerDetails].map((item, idx) => (
                                   <div key={idx} className="p-2.5 bg-slate-950/40 rounded-xl border border-white/5 space-y-1 text-[9px]">
                                     <div className="flex justify-between items-center text-[10px]">
                                       <span className="font-extrabold text-white">{item.name}</span>
                                       <span className="text-[8px] text-teal-400 bg-teal-500/10 px-1.5 py-0.2 rounded font-semibold">{item.shop}</span>
                                     </div>
                                     <p className="text-slate-400">Phone: {item.phone}</p>
-                                    <p className="text-slate-400 font-mono font-bold">DL No: {item.dl}</p>
-                                    <p className="text-slate-500 italic">Address: {item.addr}</p>
+                                    <p className="text-slate-400">DL No: <strong className="blur-[4.5px] select-none text-slate-300 font-mono font-bold transition-all duration-200 hover:blur-none" title="Hover to view">{item.dl}</strong></p>
                                     <div className="flex justify-end space-x-2 pt-1 border-t border-white/5 text-[8.5px]">
-                                      <button className="text-teal-400 font-bold">Edit Detail</button>
+                                      <button 
+                                        onClick={handleRandomizeBuyer}
+                                        className="text-teal-400 font-bold hover:text-teal-300 transition-colors cursor-pointer"
+                                      >
+                                        {lang === 'hi' ? 'रैंडम बदलें (Random)' : 'Random Detail'}
+                                      </button>
                                       <span className="text-slate-700">|</span>
-                                      <button className="text-rose-400 font-bold">Delete</button>
+                                      <button 
+                                        onClick={() => setBuyerDetails(randomPharmacists[0])}
+                                        className="text-rose-400 font-bold hover:text-rose-300 transition-colors cursor-pointer"
+                                      >
+                                        {lang === 'hi' ? 'रीसेट करें' : 'Reset'}
+                                      </button>
                                     </div>
                                   </div>
                                 ))}
@@ -1336,144 +1416,6 @@ export default function App() {
             </div>
 
           </div>
-        </div>
-      </section>
-
-      {/* EASY INSTALLATION STEP-BY-STEP GUIDE */}
-      <section id="install" className="py-8 sm:py-16 bg-slate-100 border-t border-slate-200/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-3xl mx-auto space-y-2 mb-6 sm:space-y-4 sm:mb-12">
-            <span className="px-2.5 py-1 rounded-full bg-teal-100 text-teal-800 font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider border border-teal-200/50">
-              Download and Deploy
-            </span>
-            <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              {t.installTitle}
-            </h2>
-            <p className="text-xs sm:text-base text-slate-600">
-              {t.howItWorksSub}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
-            {/* Step 1 */}
-            <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-md relative overflow-hidden flex flex-col justify-between">
-              <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-teal-500/10 rounded-bl-[50px] flex items-center justify-center font-mono font-black text-teal-700 text-base sm:text-xl pl-3 pb-3 sm:pl-4 sm:pb-4">
-                01
-              </div>
-              <div className="space-y-2.5">
-                <div className="w-10 h-10 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center">
-                  <Download className="w-4.5 h-4.5" />
-                </div>
-                <h3 className="text-sm sm:text-lg font-bold text-slate-900">
-                  {t.installStep1}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
-                  {t.installStep1Desc}
-                </p>
-              </div>
-              <div className="pt-4 sm:pt-6">
-                <a 
-                  id="install-step1-btn"
-                  href={`https://wa.me/919696971627?text=Hello!%20Please%20send%20me%20the%20latest%20apk%20file%20of%20PharmaCare.`}
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="inline-flex items-center space-x-1.5 text-xs sm:text-sm font-bold text-teal-600 hover:text-teal-700"
-                >
-                  <span>{lang === 'hi' ? 'APK व्हाट्सएप पर पाएं' : 'Get APK over WhatsApp'}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </div>
-
-            {/* Step 2 */}
-            <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-md relative overflow-hidden flex flex-col justify-between">
-              <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-teal-500/10 rounded-bl-[50px] flex items-center justify-center font-mono font-black text-teal-700 text-base sm:text-xl pl-3 pb-3 sm:pl-4 sm:pb-4">
-                02
-              </div>
-              <div className="space-y-2.5">
-                <div className="w-10 h-10 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center">
-                  <ShieldCheck className="w-4.5 h-4.5" />
-                </div>
-                <h3 className="text-sm sm:text-lg font-bold text-slate-900">
-                  {t.installStep2}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
-                  {t.installStep2Desc}
-                </p>
-              </div>
-              <div className="pt-4 sm:pt-6">
-                <span className="text-[10px] font-mono font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">
-                  {lang === 'hi' ? 'अज्ञात स्रोत चालू' : 'Unknown Sources Enabled'}
-                </span>
-              </div>
-            </div>
-
-            {/* Step 3 */}
-            <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-md relative overflow-hidden flex flex-col justify-between">
-              <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-teal-500/10 rounded-bl-[50px] flex items-center justify-center font-mono font-black text-teal-700 text-base sm:text-xl pl-3 pb-3 sm:pl-4 sm:pb-4">
-                03
-              </div>
-              <div className="space-y-2.5">
-                <div className="w-10 h-10 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center">
-                  <Smartphone className="w-4.5 h-4.5" />
-                </div>
-                <h3 className="text-sm sm:text-lg font-bold text-slate-900">
-                  {t.installStep3}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
-                  {t.installStep3Desc}
-                </p>
-              </div>
-              <div className="pt-4 sm:pt-6">
-                <a 
-                  id="install-step3-btn"
-                  href="#simulator" 
-                  className="inline-flex items-center space-x-1.5 text-xs sm:text-sm font-bold text-teal-600 hover:text-teal-700 cursor-pointer"
-                >
-                  <span>{lang === 'hi' ? 'सिमुलेटर देखें' : 'Review Live Simulator'}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Large Deployment APK download center */}
-          <div className="mt-6 sm:mt-12 bg-white rounded-2xl p-4 sm:p-8 border border-slate-200 shadow-xl text-center space-y-4 max-w-4xl mx-auto">
-            <h3 className="text-sm sm:text-xl font-black text-slate-900">
-              {lang === 'hi' ? 'PharmaCare v1.2 APK फाइल डाउनलोड करने के लिए तैयार है' : 'PharmaCare v1.2 APK File is Ready for Download'}
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              {lang === 'hi' 
-                ? 'यह 100% फ्री, एड-फ्री और पूरी तरह ऑफलाइन काम करने वाला ऐप है। नीचे बटन से APK फाइल डाउनलोड करें या व्हाट्सएप पर मैसेज करें।' 
-                : 'Free, open source, secure, and offline billing app. Grab the raw build APK directly or request over WhatsApp.'}
-            </p>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-1">
-              <a 
-                id="footer-download-apk-direct"
-                href="https://github.com/mrprabhat000-code/PHARMACARE-APK/releases/download/Apk/Pharma.Care.apk"
-                target="_blank" 
-                rel="noreferrer"
-                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-xs sm:text-sm shadow-md cursor-pointer"
-              >
-                <Download className="w-4 h-4" />
-                <span>{lang === 'hi' ? 'लेटेस्ट APK डाउनलोड करें' : 'Download Official APK'}</span>
-              </a>
-
-              <a 
-                id="footer-whatsapp-chat-apk"
-                href="https://wa.me/919696971627?text=Mujhe%20PharmaCare%20App%20chahiye" 
-                target="_blank" 
-                rel="noreferrer"
-                className="w-full sm:w-auto flex items-center justify-center space-x-2 px-5 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-xs sm:text-sm cursor-pointer"
-              >
-                <MessageSquare className="w-4 h-4 text-emerald-600" />
-                <span>{lang === 'hi' ? 'व्हाट्सएप से लें' : 'Request over WhatsApp'}</span>
-              </a>
-            </div>
-          </div>
-
         </div>
       </section>
 
