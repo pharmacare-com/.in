@@ -750,7 +750,7 @@ export default function App() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left text-[10px] sm:text-xs border-b border-slate-200 pb-4 pt-1 font-sans">
                           <div className="space-y-1 text-slate-700">
                             <p><span className="text-slate-500 font-semibold">Invoice Number:</span> <strong className="text-slate-900">{maskDetails ? "DIS*****" : "DIS56611"}</strong></p>
-                            <p><span className="text-slate-500 font-semibold">Store Operator:</span> <strong className="text-slate-900">{maskDetails ? "Prabhat Singh (+91 **********)" : "Prabhat Singh (+91 9696971627)"}</strong></p>
+                            <p><span className="text-slate-500 font-semibold">Store Operator:</span> <strong className="text-slate-900">{maskDetails ? "******" : "Prabhat Singh (+91 9696971627)"}</strong></p>
                             <p className="leading-tight"><span className="text-slate-500 font-semibold">Drug Licence No:</span> <strong className="text-slate-900 font-mono text-[9px] sm:text-[10px]">{maskDetails ? "RLF20UP*************** / RLF21UP***************" : "RLF20UP2025003840/RLF21UP2025003812"}</strong></p>
                             <p className="flex items-center space-x-1">
                               <span className="text-slate-500 font-semibold">Billing Status:</span> 
@@ -974,7 +974,6 @@ export default function App() {
                               <div className="flex-1 bg-white text-slate-900 rounded-lg p-2.5 font-mono text-[8px] border-l-2 border-slate-300 shadow-inner flex flex-col justify-between select-none">
                                 <div className="text-center space-y-0.5 border-b border-dashed border-slate-300 pb-1">
                                   <p className="font-extrabold text-[9px] uppercase tracking-tighter text-slate-950">PHARMACARE STORE</p>
-                                  <p className="text-[6.5px] text-slate-500 leading-tight">DL: RLF20UP2025003840/RLF21UP2025003812</p>
                                   <div className="flex justify-between text-[6px] text-slate-500 mt-1">
                                     <span>INV: VHF26392</span>
                                     <span>10/07/26 15:37</span>
