@@ -262,7 +262,7 @@ export default function App() {
             </div>
             <div>
               <span className="text-lg sm:text-xl font-bold tracking-tight bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
-                PharmaCare
+                mypharmacare
               </span>
               <span className="hidden sm:inline-block ml-2 text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-semibold uppercase">
                 Free
@@ -1458,7 +1458,7 @@ export default function App() {
                   </p>
                   <p className="text-[10px] text-slate-400 max-w-xs font-sans leading-relaxed pt-1">
                     {lang === 'hi' 
-                      ? 'फार्माकेयर के मुख्य निर्माता। किसी भी प्रकार के कस्टमाइजेशन या सहायता के लिए सीधे संपर्क करें।' 
+                      ? 'PharmaCare के मुख्य निर्माता। किसी भी प्रकार के कस्टमाइजेशन या सहायता के लिए सीधे संपर्क करें।' 
                       : 'Creator of PharmaCare. Reach out for custom build requirements, setup queries, or direct cooperation.'}
                   </p>
                 </div>
@@ -1495,7 +1495,7 @@ export default function App() {
                       rows={4}
                       value={whatsappMsg}
                       onChange={(e) => setWhatsappMsg(e.target.value)}
-                      placeholder={lang === 'hi' ? "नमस्ते डेवलपर! मुझे फार्माकेयर ऐप इंस्टॉल करने में मदद चाहिए..." : t.whatsappQueryPlaceholder}
+                      placeholder={lang === 'hi' ? "नमस्ते डेवलपर! मुझे PharmaCare ऐप इंस्टॉल करने में मदद चाहिए..." : t.whatsappQueryPlaceholder}
                       className="w-full bg-slate-900 text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-800 text-slate-100 focus:outline-none focus:border-teal-500 font-medium placeholder-slate-500"
                       required
                     ></textarea>
@@ -1536,11 +1536,11 @@ export default function App() {
                 <div className="w-8 h-8 rounded-lg bg-teal-600 flex items-center justify-center font-bold text-lg shadow">
                   +
                 </div>
-                <span className="text-lg font-bold tracking-tight">PharmaCare Website</span>
+                <span className="text-lg font-bold tracking-tight">mypharmacare.in Website</span>
               </div>
               <p className="text-xs text-slate-400 max-w-sm leading-relaxed">
                 {lang === 'hi' 
-                  ? 'फार्माकेयर ऐप को छोटे और मध्यम आकार के मेडिकल स्टोर्स, फार्मेसियों और क्लीनिकों को सशक्त बनाने के लिए मुफ्त में विकसित किया गया है। हम कोई डेटा एकत्र नहीं करते हैं।' 
+                  ? 'PharmaCare ऐप को छोटे और मध्यम आकार के मेडिकल स्टोर्स, फार्मेसियों और क्लीनिकों को सशक्त बनाने के लिए मुफ्त में विकसित किया गया है। हम कोई डेटा एकत्र नहीं करते हैं।' 
                   : 'PharmaCare was constructed to enable community chemists and pharmacists in digitizing records. All ledger features, bill generation, and inventory metrics are entirely free.'}
               </p>
             </div>
@@ -1590,7 +1590,7 @@ export default function App() {
       {/* FLOATING WHATSAPP CHAT BADGE */}
       <a 
         id="floating-whatsapp-badge"
-        href="https://wa.me/919696971627?text=Hi,%20I%20visited%20the%20PharmaCare%20website%20and%20need%20the%20App%20installation%20guide."
+        href="https://wa.me/919696971627?text=Hi,%20I%20visited%20the%20mypharmacare.in%20website%20and%20need%20the%20App%20installation%20guide."
         target="_blank" 
         rel="noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center"

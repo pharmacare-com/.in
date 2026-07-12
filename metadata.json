@@ -1,5 +1,5 @@
 {
-  "name": "PharmaCare Showcase",
+  "name": "mypharmacare",
   "description": "Showcase website for the 100% Free and Ad-Free PharmaCare mobile app for pharmacists, highlighting automatic billing, Google Drive backup, and Udhari Khata tracking.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
