@@ -1,0 +1,6 @@
+# robots.txt for mypharmacare.in
+User-agent: *
+Allow: /
+
+Sitemap: https://mypharmacare.in/sitemap.xml
+Sitemap: https://www.mypharmacare.in/sitemap.xml
