@@ -42,6 +42,7 @@ import {
   billingMedicinesList, 
   LanguageDict 
 } from "./data";
+import { FloatingMedicalBackground, InteractiveMedicineSynthesizer } from "./components/MedicalAnimations";
 
 const randomPharmacists = [
   { name: "dellep kumar", shop: "pharmacare", phone: "9005372548", dl: "737373ye", addr: "anjhi station Shahabad" },
@@ -313,7 +314,10 @@ export default function App() {
 
       {/* HERO SECTION */}
       <section className="relative pt-4 pb-10 sm:pt-8 sm:pb-24 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Floating Medicine & Biotech Animations Background */}
+        <FloatingMedicalBackground />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center">
             
             {/* Left Content Column */}
