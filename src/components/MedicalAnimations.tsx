@@ -472,17 +472,18 @@ export const FloatingMedicalBackground: React.FC = () => {
       {elements.map((el) => (
         <motion.div
           key={el.id}
-          className="absolute"
+          className="absolute transform-gpu"
           style={{
             left: el.left,
             top: el.top,
             ...el.style,
+            willChange: "transform, opacity"
           }}
           initial={{ opacity: 0, scale: el.scale * 0.8 }}
           animate={{
             opacity: [el.style.opacity * 0.6, el.style.opacity, el.style.opacity * 0.6],
             scale: [el.scale, el.scale * 1.1, el.scale],
-            y: [0, -20, 20, 0],
+            y: [0, -18, 18, 0],
             rotate: [0, 180, 360],
           }}
           transition={{
@@ -496,10 +497,10 @@ export const FloatingMedicalBackground: React.FC = () => {
         </motion.div>
       ))}
 
-      {/* Premium ambient radial mesh background lighting */}
-      <div className="absolute top-[5%] left-[2%] w-[45vw] h-[45vw] rounded-full bg-teal-500/5 blur-[120px] pointer-events-none animate-pulse-slow" />
-      <div className="absolute top-[25%] right-[2%] w-[45vw] h-[45vw] rounded-full bg-emerald-500/5 blur-[130px] pointer-events-none animate-pulse-slow" style={{ animationDelay: '1.5s' }} />
-      <div className="absolute bottom-[10%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-indigo-500/5 blur-[110px] pointer-events-none" />
+      {/* Lightweight ambient radial background lighting without heavy blur repaints */}
+      <div className="absolute top-[5%] left-[2%] w-[40vw] h-[40vw] rounded-full bg-teal-500/5 blur-[80px] pointer-events-none transform-gpu" />
+      <div className="absolute top-[25%] right-[2%] w-[40vw] h-[40vw] rounded-full bg-emerald-500/5 blur-[80px] pointer-events-none transform-gpu" />
+      <div className="absolute bottom-[10%] left-[10%] w-[35vw] h-[35vw] rounded-full bg-indigo-500/5 blur-[70px] pointer-events-none transform-gpu" />
     </div>
   );
 };

@@ -45,7 +45,6 @@ import {
   LanguageDict 
 } from "./data";
 import { FloatingMedicalBackground, InteractiveMedicineSynthesizer } from "./components/MedicalAnimations";
-import { Scroll3DWidget } from "./components/Scroll3DWidget";
 
 const randomPharmacists = [
   { name: "dellep kumar", shop: "pharmacare", phone: "9005372548", dl: "737373ye", addr: "anjhi station Shahabad" },
@@ -522,10 +521,10 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              whileHover={{ y: -8, rotateX: 6, rotateY: -4, scale: 1.02 }}
+              whileHover={{ y: -6, rotateX: 5, rotateY: -3, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
               onClick={() => setActiveSimTab('billing')}
-              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-colors duration-300 hover:shadow-2xl hover:shadow-teal-500/20 cursor-pointer ${
+              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transform-gpu transition-colors duration-300 hover:shadow-2xl hover:shadow-teal-500/20 cursor-pointer ${
                 activeSimTab === 'billing' 
                 ? 'bg-white/10 border-teal-500/80 shadow-teal-500/10' 
                 : 'bg-white/5 border-white/10 hover:border-teal-500/50 hover:bg-white/10'
@@ -547,10 +546,10 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              whileHover={{ y: -8, rotateX: 6, rotateY: 4, scale: 1.02 }}
+              whileHover={{ y: -6, rotateX: 5, rotateY: 3, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.05 }}
               onClick={() => setActiveSimTab('khata')}
-              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-colors duration-300 hover:shadow-2xl hover:shadow-amber-500/20 cursor-pointer ${
+              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transform-gpu transition-colors duration-300 hover:shadow-2xl hover:shadow-amber-500/20 cursor-pointer ${
                 activeSimTab === 'khata' 
                 ? 'bg-white/10 border-amber-500/80 shadow-amber-500/10' 
                 : 'bg-white/5 border-white/10 hover:border-amber-500/50 hover:bg-white/10'
@@ -572,10 +571,10 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              whileHover={{ y: -8, rotateX: 6, rotateY: -4, scale: 1.02 }}
+              whileHover={{ y: -6, rotateX: 5, rotateY: -3, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
               onClick={() => setActiveSimTab('stock')}
-              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-colors duration-300 hover:shadow-2xl hover:shadow-emerald-500/20 cursor-pointer ${
+              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transform-gpu transition-colors duration-300 hover:shadow-2xl hover:shadow-emerald-500/20 cursor-pointer ${
                 activeSimTab === 'stock' 
                 ? 'bg-white/10 border-emerald-500/80 shadow-emerald-500/10' 
                 : 'bg-white/5 border-white/10 hover:border-emerald-500/50 hover:bg-white/10'
@@ -597,10 +596,10 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              whileHover={{ y: -8, rotateX: 6, rotateY: 4, scale: 1.02 }}
+              whileHover={{ y: -6, rotateX: 5, rotateY: 3, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.15 }}
               onClick={() => setActiveSimTab('backup')}
-              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-colors duration-300 hover:shadow-2xl hover:shadow-sky-500/20 cursor-pointer ${
+              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transform-gpu transition-colors duration-300 hover:shadow-2xl hover:shadow-sky-500/20 cursor-pointer ${
                 activeSimTab === 'backup' 
                 ? 'bg-white/10 border-sky-500/80 shadow-sky-500/10' 
                 : 'bg-white/5 border-white/10 hover:border-sky-500/50 hover:bg-white/10'
@@ -1624,9 +1623,6 @@ export default function App() {
         <span className="absolute -top-1 -right-1 w-3 h-3 bg-rose-500 rounded-full border-2 border-white"></span>
       </a>
 
-      {/* 3D SCROLL UP & DOWN FLOATING INTERACTIVE WIDGET */}
-      <Scroll3DWidget lang={lang} />
-
       {/* DOWNLOAD CHOICE MODAL */}
       <AnimatePresence>
         {showDownloadModal && (
@@ -1668,37 +1664,47 @@ export default function App() {
               {/* Options Stack */}
               <div className="space-y-3.5">
                 {/* OPTION 1: Play Store */}
-                <a
-                  id="download-playstore-btn"
-                  href="https://play.google.com/store/apps/details?id=com.pharmacare.prabhat"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setShowDownloadModal(false)}
-                  className="group flex items-center space-x-4 p-4 rounded-2xl bg-slate-800/80 border border-teal-500/30 hover:border-teal-400 hover:bg-slate-800 transition-all shadow-md hover:shadow-xl hover:shadow-teal-500/10 cursor-pointer text-left"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-emerald-500 p-2.5 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                    {/* Custom Google Play Icon SVG */}
-                    <svg viewBox="0 0 24 24" className="w-full h-full fill-white">
-                      <path d="M3.609 1.814L13.792 12 3.61 22.186a2.372 2.372 0 0 1-.61-1.602V3.416c0-.623.219-1.196.609-1.602zm11.597 11.598l2.96 2.96-12.78 7.378 9.82-10.338zm0-2.824L5.386 2.25l12.78 7.378-2.96 2.96zm1.414 1.412l3.417 1.972a1.688 1.688 0 0 1 0 2.056l-3.417 1.972-2.316-2.316 2.316-2.316z"/>
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2">
-                      <span className="font-extrabold text-white text-base group-hover:text-teal-300 transition-colors">
-                        Google Play Store
-                      </span>
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px] font-mono font-bold uppercase border border-emerald-500/30">
-                        {lang === 'hi' ? 'ऑफिशियल' : 'Official'}
-                      </span>
+                <div className="space-y-1.5">
+                  <a
+                    id="download-playstore-btn"
+                    href="https://play.google.com/store/apps/details?id=com.pharmacare.prabhat&hl=en-US&ah=_Bd62BIfZcuMDaRsKIZm6KPMMKQ"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setShowDownloadModal(false)}
+                    className="group flex items-center space-x-4 p-4 rounded-2xl bg-slate-800/80 border border-teal-500/30 hover:border-teal-400 hover:bg-slate-800 transition-all shadow-md hover:shadow-xl hover:shadow-teal-500/10 cursor-pointer text-left"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-emerald-500 p-2.5 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                      {/* Custom Google Play Icon SVG */}
+                      <svg viewBox="0 0 24 24" className="w-full h-full fill-white">
+                        <path d="M3.609 1.814L13.792 12 3.61 22.186a2.372 2.372 0 0 1-.61-1.602V3.416c0-.623.219-1.196.609-1.602zm11.597 11.598l2.96 2.96-12.78 7.378 9.82-10.338zm0-2.824L5.386 2.25l12.78 7.378-2.96 2.96zm1.414 1.412l3.417 1.972a1.688 1.688 0 0 1 0 2.056l-3.417 1.972-2.316-2.316 2.316-2.316z"/>
+                      </svg>
                     </div>
-                    <p className="text-xs text-slate-400 font-sans mt-0.5">
-                      {lang === 'hi' 
-                        ? 'गूगल प्ले स्टोर से ऐप प्राप्त करें' 
-                        : 'Get the official app on Google Play Store'}
-                    </p>
-                  </div>
-                  <ExternalLink className="w-5 h-5 text-slate-400 group-hover:text-teal-300 transition-colors shrink-0" />
-                </a>
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-extrabold text-white text-base group-hover:text-teal-300 transition-colors">
+                          Google Play Store
+                        </span>
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px] font-mono font-bold uppercase border border-emerald-500/30">
+                          {lang === 'hi' ? 'ऑफिशियल' : 'Official'}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-400 font-sans mt-0.5">
+                        {lang === 'hi' 
+                          ? 'गूगल प्ले स्टोर से ऐप प्राप्त करें' 
+                          : 'Get the official app on Google Play Store'}
+                      </p>
+                    </div>
+                    <ExternalLink className="w-5 h-5 text-slate-400 group-hover:text-teal-300 transition-colors shrink-0" />
+                  </a>
+
+                  {/* Playstore tip if in review/testing */}
+                  <p className="text-[10px] text-amber-300/90 font-sans px-2 flex items-center space-x-1">
+                    <span>💡 {lang === 'hi' 
+                      ? 'अगर Play Store पर "Item not found" दिखे, तो नीचे दी गई Direct APK का इस्तेमाल करें।' 
+                      : 'If Play Store shows "Item not found", use the Direct APK option below.'}
+                    </span>
+                  </p>
+                </div>
 
                 {/* OPTION 2: Direct APK Download */}
                 <a
