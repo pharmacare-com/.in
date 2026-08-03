@@ -1670,7 +1670,7 @@ export default function App() {
                 {/* OPTION 1: Play Store */}
                 <a
                   id="download-playstore-btn"
-                  href="https://play.google.com/store/apps/details?id=com.pharmacare.prabhat&hl=en-US&ah=_Bd62BIfZcuMDaRsKIZm6KPMMKQ"
+                  href="https://play.google.com/store/apps/details?id=com.pharmacare.prabhat"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setShowDownloadModal(false)}
