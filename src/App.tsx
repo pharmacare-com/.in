@@ -32,7 +32,9 @@ import {
   Github,
   Eye,
   EyeOff,
-  Lock
+  Lock,
+  Cloud,
+  ExternalLink
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
@@ -43,6 +45,7 @@ import {
   LanguageDict 
 } from "./data";
 import { FloatingMedicalBackground, InteractiveMedicineSynthesizer } from "./components/MedicalAnimations";
+import { Scroll3DWidget } from "./components/Scroll3DWidget";
 
 const randomPharmacists = [
   { name: "dellep kumar", shop: "pharmacare", phone: "9005372548", dl: "737373ye", addr: "anjhi station Shahabad" },
@@ -55,6 +58,9 @@ const randomPharmacists = [
 export default function App() {
   const [lang, setLang] = useState<'en' | 'hi'>('hi'); // Defaulting to Hindi as requested
   const t: LanguageDict = translations[lang];
+
+  // Download choice modal state
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   // Active Simulator Tab ('billing' | 'khata' | 'backup' | 'stock')
   const [activeSimTab, setActiveSimTab] = useState<'billing' | 'khata' | 'backup' | 'stock'>('billing');
@@ -266,7 +272,7 @@ export default function App() {
                 mypharmacare
               </span>
               <span className="hidden sm:inline-block ml-2 text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-semibold uppercase">
-                Free
+                100% Free & Unlimited Cloud
               </span>
             </div>
           </div>
@@ -299,15 +305,14 @@ export default function App() {
             </button>
 
             {/* Download CTA Button */}
-            <a 
+            <button 
               id="nav-download-cta"
-              href="https://github.com/mrprabhat000-code/PHARMACARE-APK/releases/download/Apk/Pharma.Care.apk" 
-              onClick={handleDownloadApk}
+              onClick={() => setShowDownloadModal(true)}
               className="hidden sm:flex items-center space-x-2 px-4 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm shadow-sm transition-all hover:shadow-md cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>{t.downloadBtn}</span>
-            </a>
+            </button>
           </div>
         </div>
       </nav>
@@ -339,35 +344,30 @@ export default function App() {
 
               {/* Unique Features quick list badges */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-1.5 sm:gap-3 pt-1">
-                <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px] sm:text-sm font-medium">
-                  <Check className="w-3 h-3 text-emerald-400" />
+                <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px] sm:text-xs font-semibold shadow-sm">
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
                   <span>100% Free App</span>
                 </span>
-                <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px] sm:text-sm font-medium">
-                  <Check className="w-3 h-3 text-emerald-400" />
-                  <span>No Ads Always</span>
+                <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-[10px] sm:text-xs font-semibold shadow-sm animate-pulse">
+                  <Cloud className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Unlimited Cloud Storage</span>
                 </span>
-                <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px] sm:text-sm font-medium">
-                  <Check className="w-3 h-3 text-emerald-400" />
+                <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px] sm:text-xs font-semibold shadow-sm">
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Offline Ledger</span>
-                </span>
-                <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px] sm:text-sm font-medium">
-                  <Check className="w-3 h-3 text-emerald-400" />
-                  <span>Drive Auto Backup</span>
                 </span>
               </div>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
-                <a 
+                <button 
                   id="hero-download-apk"
-                  href="https://github.com/mrprabhat000-code/PHARMACARE-APK/releases/download/Apk/Pharma.Care.apk" 
-                  onClick={handleDownloadApk}
+                  onClick={() => setShowDownloadModal(true)}
                   className="w-full sm:w-auto flex items-center justify-center space-x-2 px-5 py-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 font-bold text-sm sm:text-lg shadow-lg shadow-teal-600/20 hover:shadow-xl hover:shadow-teal-600/30 hover:-translate-y-0.5 transition-all cursor-pointer"
                 >
                   <Download className="w-4.5 h-4.5 animate-bounce" />
                   <span>{t.downloadApk}</span>
-                </a>
+                </button>
                 
                 <a 
                   id="hero-support-dev"
@@ -515,12 +515,17 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6" style={{ perspective: "1000px" }}>
             
             {/* CARD 1: Automated Billing */}
-            <div 
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              whileHover={{ y: -8, rotateX: 6, rotateY: -4, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
               onClick={() => setActiveSimTab('billing')}
-              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 cursor-pointer ${
+              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-colors duration-300 hover:shadow-2xl hover:shadow-teal-500/20 cursor-pointer ${
                 activeSimTab === 'billing' 
                 ? 'bg-white/10 border-teal-500/80 shadow-teal-500/10' 
                 : 'bg-white/5 border-white/10 hover:border-teal-500/50 hover:bg-white/10'
@@ -535,12 +540,17 @@ export default function App() {
               <p className="text-[10px] sm:text-sm text-slate-300 leading-relaxed font-sans mb-2 sm:mb-4 line-clamp-3 sm:line-clamp-none">
                 {t.featureBillingDesc}
               </p>
-            </div>
+            </motion.div>
 
             {/* CARD 2: Udhari Khata */}
-            <div 
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              whileHover={{ y: -8, rotateX: 6, rotateY: 4, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.05 }}
               onClick={() => setActiveSimTab('khata')}
-              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 cursor-pointer ${
+              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-colors duration-300 hover:shadow-2xl hover:shadow-amber-500/20 cursor-pointer ${
                 activeSimTab === 'khata' 
                 ? 'bg-white/10 border-amber-500/80 shadow-amber-500/10' 
                 : 'bg-white/5 border-white/10 hover:border-amber-500/50 hover:bg-white/10'
@@ -555,12 +565,17 @@ export default function App() {
               <p className="text-[10px] sm:text-sm text-slate-300 leading-relaxed font-sans mb-2 sm:mb-4 line-clamp-3 sm:line-clamp-none">
                 {t.featureKhataDesc}
               </p>
-            </div>
+            </motion.div>
 
             {/* CARD 3: Medicine Inventory */}
-            <div 
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              whileHover={{ y: -8, rotateX: 6, rotateY: -4, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
               onClick={() => setActiveSimTab('stock')}
-              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 cursor-pointer ${
+              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-colors duration-300 hover:shadow-2xl hover:shadow-emerald-500/20 cursor-pointer ${
                 activeSimTab === 'stock' 
                 ? 'bg-white/10 border-emerald-500/80 shadow-emerald-500/10' 
                 : 'bg-white/5 border-white/10 hover:border-emerald-500/50 hover:bg-white/10'
@@ -575,12 +590,17 @@ export default function App() {
               <p className="text-[10px] sm:text-sm text-slate-300 leading-relaxed font-sans mb-2 sm:mb-4 line-clamp-3 sm:line-clamp-none">
                 {t.featureStockDesc}
               </p>
-            </div>
+            </motion.div>
 
             {/* CARD 4: Google Drive Backup */}
-            <div 
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              whileHover={{ y: -8, rotateX: 6, rotateY: 4, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.15 }}
               onClick={() => setActiveSimTab('backup')}
-              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 cursor-pointer ${
+              className={`group p-3 sm:p-6 rounded-2xl sm:rounded-3xl border text-left backdrop-blur-xl transition-colors duration-300 hover:shadow-2xl hover:shadow-sky-500/20 cursor-pointer ${
                 activeSimTab === 'backup' 
                 ? 'bg-white/10 border-sky-500/80 shadow-sky-500/10' 
                 : 'bg-white/5 border-white/10 hover:border-sky-500/50 hover:bg-white/10'
@@ -595,7 +615,7 @@ export default function App() {
               <p className="text-[10px] sm:text-sm text-slate-300 leading-relaxed font-sans mb-2 sm:mb-4 line-clamp-3 sm:line-clamp-none">
                 {t.featureBackupDesc}
               </p>
-            </div>
+            </motion.div>
 
           </div>
         </div>
@@ -1597,12 +1617,131 @@ export default function App() {
         href="https://wa.me/919696971627?text=Hi,%20I%20visited%20the%20mypharmacare.in%20website%20and%20need%20the%20App%20installation%20guide."
         target="_blank" 
         rel="noreferrer"
-        className="fixed bottom-6 right-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center"
+        className="fixed bottom-6 left-6 z-50 bg-emerald-600 hover:bg-emerald-700 text-white p-3.5 sm:p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center border border-white/20"
         title="Contact on WhatsApp"
       >
-        <MessageSquare className="w-6 h-6 animate-pulse" />
+        <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 animate-pulse" />
         <span className="absolute -top-1 -right-1 w-3 h-3 bg-rose-500 rounded-full border-2 border-white"></span>
       </a>
+
+      {/* 3D SCROLL UP & DOWN FLOATING INTERACTIVE WIDGET */}
+      <Scroll3DWidget lang={lang} />
+
+      {/* DOWNLOAD CHOICE MODAL */}
+      <AnimatePresence>
+        {showDownloadModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="relative w-full max-w-md bg-slate-900 border border-teal-500/40 rounded-3xl p-6 shadow-[0_25px_60px_rgba(15,118,110,0.35)] space-y-6 text-white overflow-hidden"
+            >
+              {/* Background Glow */}
+              <div className="absolute top-0 right-0 w-48 h-48 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+              
+              {/* Close Button */}
+              <button
+                onClick={() => setShowDownloadModal(false)}
+                className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-full transition-all cursor-pointer"
+                title="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Modal Header */}
+              <div className="space-y-2 text-center pt-1">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-teal-500 to-emerald-400 flex items-center justify-center mx-auto text-white shadow-lg shadow-teal-500/30">
+                  <Download className="w-6 h-6 animate-bounce" />
+                </div>
+                <h3 className="text-xl font-bold tracking-tight text-white">
+                  {lang === 'hi' ? 'डाउनलोड का माध्यम चुनें' : 'Select Download Option'}
+                </h3>
+                <p className="text-xs text-slate-300 font-sans">
+                  {lang === 'hi' 
+                    ? 'PharmaCare ऐप इंस्टॉल करने के लिए अपनी पसंद का विकल्प चुनें:'
+                    : 'Choose how you would like to download PharmaCare:'}
+                </p>
+              </div>
+
+              {/* Options Stack */}
+              <div className="space-y-3.5">
+                {/* OPTION 1: Play Store */}
+                <a
+                  id="download-playstore-btn"
+                  href="https://play.google.com/store/apps/details?id=com.pharmacare.prabhat&hl=en-US&ah=_Bd62BIfZcuMDaRsKIZm6KPMMKQ"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setShowDownloadModal(false)}
+                  className="group flex items-center space-x-4 p-4 rounded-2xl bg-slate-800/80 border border-teal-500/30 hover:border-teal-400 hover:bg-slate-800 transition-all shadow-md hover:shadow-xl hover:shadow-teal-500/10 cursor-pointer text-left"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-emerald-500 p-2.5 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                    {/* Custom Google Play Icon SVG */}
+                    <svg viewBox="0 0 24 24" className="w-full h-full fill-white">
+                      <path d="M3.609 1.814L13.792 12 3.61 22.186a2.372 2.372 0 0 1-.61-1.602V3.416c0-.623.219-1.196.609-1.602zm11.597 11.598l2.96 2.96-12.78 7.378 9.82-10.338zm0-2.824L5.386 2.25l12.78 7.378-2.96 2.96zm1.414 1.412l3.417 1.972a1.688 1.688 0 0 1 0 2.056l-3.417 1.972-2.316-2.316 2.316-2.316z"/>
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <span className="font-extrabold text-white text-base group-hover:text-teal-300 transition-colors">
+                        Google Play Store
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px] font-mono font-bold uppercase border border-emerald-500/30">
+                        {lang === 'hi' ? 'ऑफिशियल' : 'Official'}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-400 font-sans mt-0.5">
+                      {lang === 'hi' 
+                        ? 'गूगल प्ले स्टोर से ऐप प्राप्त करें' 
+                        : 'Get the official app on Google Play Store'}
+                    </p>
+                  </div>
+                  <ExternalLink className="w-5 h-5 text-slate-400 group-hover:text-teal-300 transition-colors shrink-0" />
+                </a>
+
+                {/* OPTION 2: Direct APK Download */}
+                <a
+                  id="download-direct-apk-btn"
+                  href="https://github.com/mrprabhat000-code/PHARMACARE-APK/releases/download/Apk/Pharma.Care.apk"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowDownloadModal(false);
+                    window.location.href = "https://github.com/mrprabhat000-code/PHARMACARE-APK/releases/download/Apk/Pharma.Care.apk";
+                  }}
+                  className="group flex items-center space-x-4 p-4 rounded-2xl bg-slate-800/80 border border-emerald-500/30 hover:border-emerald-400 hover:bg-slate-800 transition-all shadow-md hover:shadow-xl hover:shadow-emerald-500/10 cursor-pointer text-left"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 p-2.5 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                    <Smartphone className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <span className="font-extrabold text-white text-base group-hover:text-emerald-300 transition-colors">
+                        {lang === 'hi' ? 'डायरेक्ट APK फाइल' : 'Direct APK File'}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 text-[9px] font-mono font-bold uppercase border border-teal-500/30">
+                        APK
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-400 font-sans mt-0.5">
+                      {lang === 'hi' 
+                        ? 'Pharma.Care.apk फाइल सीधे डाउनलोड करें' 
+                        : 'Download Pharma.Care.apk file directly'}
+                    </p>
+                  </div>
+                  <Download className="w-5 h-5 text-slate-400 group-hover:text-emerald-300 transition-colors shrink-0" />
+                </a>
+              </div>
+
+              {/* Security badge footer */}
+              <div className="pt-2 text-center text-[11px] text-slate-400 font-mono flex items-center justify-center space-x-1.5 border-t border-white/5">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>100% Virus Free • Safe & Verified</span>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
