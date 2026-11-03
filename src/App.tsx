@@ -213,11 +213,6 @@ export default function App() {
     }, 2000);
   };
 
-  // Direct APK download handler without opening a blank new tab
-  const handleDownloadApk = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    window.location.href = "https://github.com/mrprabhat000-code/PHARMACARE-APK/releases/download/Apk/Pharma.Care.apk";
-  };
 
   // Handle preset donation amount clicks
   const handlePresetDonation = (amount: number) => {
@@ -359,14 +354,16 @@ export default function App() {
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
-                <button 
+                <a 
                   id="hero-download-apk"
-                  onClick={() => setShowDownloadModal(true)}
+                  href="https://play.google.com/store/apps/details?id=com.pharmacare.prabhat&hl=en-US&ah=_Bd62BIfZcuMDaRsKIZm6KPMMKQ"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full sm:w-auto flex items-center justify-center space-x-2 px-5 py-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 font-bold text-sm sm:text-lg shadow-lg shadow-teal-600/20 hover:shadow-xl hover:shadow-teal-600/30 hover:-translate-y-0.5 transition-all cursor-pointer"
                 >
-                  <Download className="w-4.5 h-4.5 animate-bounce" />
-                  <span>{t.downloadApk}</span>
-                </button>
+                  <ExternalLink className="w-4.5 h-4.5 animate-bounce" />
+                  <span>{lang === 'hi' ? 'Google Play Store से डाउनलोड करें' : 'Get it on Google Play'}</span>
+                </a>
                 
                 <a 
                   id="hero-support-dev"
@@ -1697,46 +1694,7 @@ export default function App() {
                     <ExternalLink className="w-5 h-5 text-slate-400 group-hover:text-teal-300 transition-colors shrink-0" />
                   </a>
 
-                  {/* Playstore tip if in review/testing */}
-                  <p className="text-[10px] text-amber-300/90 font-sans px-2 flex items-center space-x-1">
-                    <span>💡 {lang === 'hi' 
-                      ? 'अगर Play Store पर "Item not found" दिखे, तो नीचे दी गई Direct APK का इस्तेमाल करें।' 
-                      : 'If Play Store shows "Item not found", use the Direct APK option below.'}
-                    </span>
-                  </p>
                 </div>
-
-                {/* OPTION 2: Direct APK Download */}
-                <a
-                  id="download-direct-apk-btn"
-                  href="https://github.com/mrprabhat000-code/PHARMACARE-APK/releases/download/Apk/Pharma.Care.apk"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShowDownloadModal(false);
-                    window.location.href = "https://github.com/mrprabhat000-code/PHARMACARE-APK/releases/download/Apk/Pharma.Care.apk";
-                  }}
-                  className="group flex items-center space-x-4 p-4 rounded-2xl bg-slate-800/80 border border-emerald-500/30 hover:border-emerald-400 hover:bg-slate-800 transition-all shadow-md hover:shadow-xl hover:shadow-emerald-500/10 cursor-pointer text-left"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 p-2.5 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                    <Smartphone className="w-7 h-7 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2">
-                      <span className="font-extrabold text-white text-base group-hover:text-emerald-300 transition-colors">
-                        {lang === 'hi' ? 'डायरेक्ट APK फाइल' : 'Direct APK File'}
-                      </span>
-                      <span className="px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 text-[9px] font-mono font-bold uppercase border border-teal-500/30">
-                        APK
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-400 font-sans mt-0.5">
-                      {lang === 'hi' 
-                        ? 'Pharma.Care.apk फाइल सीधे डाउनलोड करें' 
-                        : 'Download Pharma.Care.apk file directly'}
-                    </p>
-                  </div>
-                  <Download className="w-5 h-5 text-slate-400 group-hover:text-emerald-300 transition-colors shrink-0" />
-                </a>
               </div>
 
               {/* Security badge footer */}
